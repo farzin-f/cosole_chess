@@ -1,0 +1,59 @@
+public class Tour extends Piece {
+
+    /**
+     * Constructeur par paramètres (appelle le constructeur de Piece)
+     * @param est_blanc détermine la couleur de la pièce
+     * @param colonne colonne dans laquelle se trouve la pièce
+     * @param ligne ligne à laquelle se trouve la pièce
+     * @param echiquier échiquier sur lequel se trouve la pièce
+     */
+    public Tour(boolean est_blanc, int colonne, int ligne, Echiquier echiquier)  {
+	super(est_blanc, colonne, ligne, echiquier);
+    }
+  
+    /**
+     * Représentation ASCII de la pièce
+     * @return String contentant un caractère ASCII (majuscule si la pièce est blanche, minuscule sinon)
+     */
+    public String representationAscii() {
+	if (estBlanc()) {
+	    return "T";
+	} else {
+	    return "t";
+	}
+    }
+
+    /**
+     * Représentation Unicode de la pièce
+     * @return String contenant un caractère Unicode
+     */
+    public String representationUnicode() {
+	if (estBlanc()) {
+	    return "♖";
+	} else {
+	    return "♜";
+	}
+    }
+
+    /**
+       Vérifie si le déplacement demandé est valide
+       - Déplacement doit être horizontal ou vertical
+       - Tour ne peut passer par dessus une autre pièce
+    */
+    boolean deplacementValide(int nouvelle_colonne, int nouvelle_ligne) {
+
+	if (super.deplacementValide(nouvelle_colonne, nouvelle_ligne)) {
+
+	    int colonneOrigine = getColonne();
+	    int ligneOrigine = getLigne();
+	    int deplHorizontal = nouvelle_colonne - colonneOrigine;
+	    int deplVertical = nouvelle_ligne - ligneOrigine;
+	    
+	    //Déplacement horizontal ou vertical seulement
+	    if ((deplHorizontal == 0) != (deplVertical == 0)) {
+		return verifCheminVide(colonneOrigine, ligneOrigine, deplHorizontal, deplVertical);
+	    }
+	}
+	return false;
+    }
+}
